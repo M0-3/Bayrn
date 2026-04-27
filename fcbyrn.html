@@ -1,0 +1,254 @@
+<html>
+<head>
+    <title>FC Bayern Munich | Official Website</title>
+    <style>
+        :root { --bayern-red: #dc052d; --deep-black: #0a0a0a; --gold: #a29061; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--deep-black); color: white; overflow-x: hidden; }
+        .header { 
+            background: rgba(0, 0, 0, 0.9); border-bottom: 3px solid var(--bayern-red); 
+            padding: 10px 5%; position: fixed; width: 100%; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center; box-sizing: border-box;
+        }
+        .logo-area { display: flex; align-items: center; gap: 10px; }
+        .club-logo { width: 50px; height: 50px; cursor: pointer; }
+        nav a { color: white; text-decoration: none; font-weight: bold; margin: 0 15px; cursor: pointer; transition: 0.3s; }
+        nav a:hover { color: var(--bayern-red); text-shadow: 0 0 10px var(--bayern-red); }
+        .view { display: none; padding-top: 90px; min-height: 100vh; animation: fadeIn 0.8s; }
+        .active-view { display: block; }
+        .hero { text-align: center; padding: 50px 20px; }
+        .main-logo-big { width: 120px; margin-bottom: 10px; filter: drop-shadow(0 0 15px var(--bayern-red)); }
+        .hero h1 { font-size: 65px; color: var(--bayern-red); margin: 10px 0; text-shadow: 3px 3px 0px #000; }
+        .stadium-container { 
+            width: 85%; max-width: 900px; margin: 30px auto; overflow: hidden; border-radius: 20px;
+            border: 2px solid var(--bayern-red); transition: 0.5s; position: relative;
+        }
+        .stadium-container img { width: 100%; transition: 1s; }
+        .stadium-container:hover img { transform: scale(1.1); }
+        .stadium-container:hover { box-shadow: 0 0 50px var(--bayern-red); transform: translateY(-10px); }
+        .pitch-layout { 
+            background: #1e4d2b; width: 95%; max-width: 750px; height: 550px; margin: 20px auto;
+            border: 4px solid white; border-radius: 15px; position: relative; 
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+        }
+        .player-card { position: absolute; text-align: center; width: 80px; transition: 0.3s; }
+        .player-card:hover { transform: scale(1.3) translateY(-10px); z-index: 50; }
+        .player-card img { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--bayern-red); background: #fff; }
+        .player-card span { display: block; font-size: 11px; background: rgba(0,0,0,0.8); padding: 2px; border-radius: 5px; }
+        .p-gk { bottom: 20px; left: 45%; }
+        .p-lb { bottom: 120px; left: 10%; } .p-cb1 { bottom: 100px; left: 32%; } .p-cb2 { bottom: 100px; right: 32%; } .p-rb { bottom: 120px; right: 10%; }
+        .p-m1 { bottom: 220px; left: 35%; } .p-m2 { bottom: 220px; right: 35%; }
+        .p-lw { top: 130px; left: 10%; } .p-cam { top: 160px; left: 45%; } .p-rw { top: 130px; right: 10%; }
+        .p-st { top: 40px; left: 45%; }
+        .legend-section { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 40px; }
+        .legend-item { 
+            background: linear-gradient(145deg, #1a1a1a, #000); width: 200px; border-radius: 20px;
+            border: 1px solid var(--gold); padding: 20px; text-align: center; transition: 0.4s;
+        }
+        .legend-item:hover { transform: scale(1.1); box-shadow: 0 0 25px var(--gold); }
+        .legend-item img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 10px; }
+        .match-row { 
+            background: #151515; width: 90%; max-width: 800px; margin: 15px auto; padding: 20px;
+            border-radius: 15px; display: flex; align-items: center; justify-content: space-between;
+            border-left: 10px solid var(--bayern-red); transition: 0.3s;
+        }
+        .match-row:hover { background: #222; transform: translateX(-10px); }
+        .team-logos { display: flex; align-items: center; gap: 15px; }
+        .vs-logo { width: 45px; height: 45px; object-fit: contain; }
+        .custom-popup { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center;
+        }
+        .popup-card { 
+            background: #fff; color: #000; width: 450px; padding: 40px; border-radius: 30px;
+            text-align: right; border-top: 15px solid var(--bayern-red); animation: slideUp 0.4s;
+        }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
+        .action-btn { background: var(--bayern-red); color: white; border: none; padding: 15px 30px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; font-size: 18px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    </style>
+</head>
+<body dir="rtl">
+
+    <div class="header">
+        <div class="logo-area">
+            <img src="imag/بايرن.png" class="club-logo">
+            <span style="font-size: 22px;"> <b>بايرن ميونخ</b> </span>
+        </div>
+        <nav>
+            <a onclick="setView('home')">الرئيسية</a>
+            <a onclick="setView('pitch')"> النادي</a>
+            <a onclick="setView('matches')">المباريات</a>
+        </nav>
+    </div>
+
+    <div id="home" class="view active-view">
+        <div class="hero">
+            <img src="imag/بايرن.png" class="main-logo-big">
+            <h1>MIA SAN MIA</h1>
+            <p style="font-size: 20px; color: #ccc;">الموقع الرسمي لنادي بايرن ميونخ - قوة البافاري</p>
+            
+            <div class="stadium-container">
+                <img src="imag/Alianz.jpeg" alt="Allianz Arena">
+                <div style="padding: 20px; background: rgba(0,0,0,0.7);">
+                    <h2 style="color:var(--bayern-red)">أليانز أرينا - قلعة الرعب</h2>
+                    <p>استكشف ملعبنا التاريخي وتفاعل مع كل زاوية فيه.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pitch" class="view">
+        <h2 style="text-align: center; color: var(--bayern-red);">التشكيلة الأساسية (4-2-3-1)</h2>
+        <div class="pitch-layout">
+            <div class="player-card p-gk"><img src="imag/النوني.jpeg"><span>مانويل نوير</span></div>
+            <div class="player-card p-lb"><img src="imag/ديفيز.jpeg"><span>ديفيز</span></div>
+            <div class="player-card p-cb1"><img src="imag/تاه.jpeg"><span>تاه</span></div>
+            <div class="player-card p-cb2"><img src="imag/اوبا.jpeg"><span>أوباميكانو</span></div>
+            <div class="player-card p-rb"><img src="imag/لايمر.jpeg"><span>لايمر</span></div>
+            <div class="player-card p-m1"><img src="imag/كيمي.jpeg"><span>كيميتش</span></div>
+            <div class="player-card p-m2"><img src="imag/بافو.jpeg"><span>بافلوفيتش</span></div>
+            <div class="player-card p-lw"><img src="imag/دياز.jpeg"><span>دياز</span></div>
+            <div class="player-card p-cam"><img src="imag/موسيالا.jpeg"><span>موسيالا</span></div>
+            <div class="player-card p-rw"><img src="imag/اولي.jpeg"><span>أوليسيه</span></div>
+            <div class="player-card p-st"><img src="imag/كين.jpeg"><span>هاري كين</span></div>
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 50px; padding: 20px;">
+            <div style="background: rgba(220,5,45,0.1); padding: 20px; border-radius: 15px; border: 1px solid var(--bayern-red);">
+                <h3 style="color:var(--bayern-red)">دكة البدلاء</h3>
+                <p>أولرايخ (GK), ليمر, كيم, غورتسيكا, غيريرو, غنابري, اوربيغ, كارل, ايتو, جاكسون  </p>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;">
+                <h3>الكادر الفني</h3>
+                <p>المدرب: <b>فينسنت كومباني</b></p>
+                <p>المساعد: <b>آرون دانك</b></p>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; color: var(--gold); margin-top: 60px;">أساطير عبر الزمان</h2>
+        <div class="legend-section">
+            <div class="legend-item"><img src="imag/بيكنباور.jpeg"><h4>بيكنباور</h4></div>
+            <div class="legend-item"><img src="imag/روبين.jpeg"><h4>أريين روبن</h4></div>
+            <div class="legend-item"><img src="imag/اولفير.jpeg"><h4>أوليفر كان</h4></div>
+            <div class="legend-item"><img src="imag/جيرد مولر.jpeg"><h4>جيرد مولر</h4></div>
+            <div class="legend-item"><img src="imag/ريبري.jpeg"><h4>فرانك ريبري</h4></div>
+            <div class="legend-item"><img src="imag/توماس مولر.jpeg"><h4>توماس مولر</h4></div>
+        </div>
+
+        <h2 style="text-align: center; color: var(--bayern-red);">أهم 3 مدربين في التاريخ</h2>
+        <div class="legend-section">
+            <div class="legend-item">
+                <h3>1</h3>
+                <h4>يوب هاينكس</h4>
+                <p style="font-size:13px; color:#a29061; margin-top:10px;">🏆 الثلاثية التاريخية 2013<br><span style="color:#ccc; font-size:12px;">دوري أبطال أوروبا + الدوري الألماني + كأس ألمانيا</span></p>
+            </div>
+            <div class="legend-item">
+                <h3>2</h3>
+                <h4>هانس فليك</h4>
+                <p style="font-size:13px; color:#a29061; margin-top:10px;">🏆 السداسية التاريخية 2020<br><span style="color:#ccc; font-size:12px;">أول نادٍ ألماني يحقق 6 بطولات في موسم واحد</span></p>
+            </div>
+            <div class="legend-item">
+                <h3>3</h3>
+                <h4>بيب غوارديولا</h4>
+                <p style="font-size:13px; color:#a29061; margin-top:10px;">🏆 ثلاثية الدوريات 2014-2016<br><span style="color:#ccc; font-size:12px;">3 ألقاب دوري ألماني متتالية بأسلوب هجومي استثنائي</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="matches" class="view">
+        <h2 style="text-align: center;">جدول المباريات القادمة </h2>
+        
+        <div class="match-row">
+            <div class="team-logos">
+                <img src="imag/بايرن.png" class="vs-logo">
+                <span style="font-size:20px;">VS</span>
+                <img src="imag/باريس.png" class="vs-logo">
+                <div style="margin-right:20px;">
+                    <b>بايرن ميونخ × باريس سان جيرمان</b><br>
+                    <small>دوري أبطال أوروبا | 28 أبريل 2026 - 21:00</small>
+                </div>
+            </div>
+            <button class="action-btn" style="width:auto;" onclick="openBook('بايرن × باريس')">احجز تذكرة</button>
+        </div>
+
+        <div class="match-row">
+            <div class="team-logos">
+                <img src="imag/بايرن.png" class="vs-logo">
+                <span style="font-size:20px;">VS</span>
+                <img src="imag/هايد.png" class="vs-logo">
+                <div style="margin-right:20px;">
+                    <b>بايرن ميونخ × هايدنهايم</b><br>
+                    <small>الدوري الألماني | 2 مايو 2026 - 15:30</small>
+                </div>
+            </div>
+            <button class="action-btn" style="width:auto;" onclick="openBook('بايرن × هايدنهايم')">احجز تذكرة</button>
+        </div>
+
+        <div class="match-row">
+            <div class="team-logos">
+                <img src="imag/باريس.png" class="vs-logo">
+                <span style="font-size:20px;">VS</span>
+                <img src="imag/بايرن.png" class="vs-logo">
+                <div style="margin-right:20px;">
+                    <b>باريس سان جيرمان × بايرن ميونخ</b><br>
+                    <small>دوري أبطال أوروبا | 6 مايو 2026 - 21:00</small>
+                </div>
+            </div>
+            <button class="action-btn" style="width:auto;" onclick="openBook('باريس × بايرن')">احجز تذكرة</button>
+        </div>
+    </div>
+
+    <div id="modalOverlay" class="custom-popup">
+        <div class="popup-card" id="modalBox"></div>
+    </div>
+
+    <script>
+        function setView(id) {
+            var views = document.getElementsByClassName('view');
+            for(var i=0; i<views.length; i++){
+            views[i].classList.remove('active-view');
+            }
+            document.getElementById(id).classList.add('active-view');
+        }
+
+        function openBook(match) {
+            var box = document.getElementById('modalBox');
+            box.innerHTML = `
+                <h2 style="color:var(--bayern-red); border-bottom:2px solid #eee;">حجز تذاكر: ${match}</h2>
+                <p>يرجى إدخال بياناتك لإتمام الحجز:</p>
+                <input type="text" id="custName" placeholder="الاسم الكامل">
+                <input type="text" id="custAddr" placeholder="عنوان السكن (المحافظة / الحي)">
+                <input type="number" id="custQty" placeholder="عدد التذاكر">
+                <select id="payMethod">
+                    <option value="">اختر طريقة الدفع</option>
+                    <option>زين كاش</option>
+                    <option>ماستر كارد / فيزا</option>
+                </select>
+                <button class="action-btn" onclick="confirmFinal('تم حجز تذاكرك بنجاح! سيتم التواصل معك قريباً.')">تأكيد الحجز والدفع</button>
+                <button onclick="closeModal()" style="background:none; border:none; color:red; cursor:pointer; width:100%; margin-top:10px;">إلغاء العملية</button>
+            `;
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
+
+        function confirmFinal(msg) {
+            var name = document.getElementById('custName')?.value;
+            if(!name) { alert("أدخل اسمك أولاً!"); return; }
+            
+            var box = document.getElementById('modalBox');
+            box.innerHTML = `
+                <div style="text-align:center;">
+                    <h1 style="color:green; font-size:50px;">✔</h1>
+                    <h2 style="color:var(--bayern-red);">شكراً لك يا ${name}</h2>
+                    <p>${msg}</p>
+                    <button class="action-btn" onclick="location.reload()">العودة للرئيسية</button>
+                </div>
+            `;
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
